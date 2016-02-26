@@ -90,3 +90,11 @@ section img {
 	font-size: 6vh;
 	margin-top: 1em;
 }
+
+.wi-celsius, .wi-fahrenheit {
+	color: #0275d8;
+}
+
+.wi-celsius:hover, .wi-fahrenheit:hover {
+	color: #014c8c;
+}
