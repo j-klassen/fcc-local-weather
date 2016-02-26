@@ -79,8 +79,6 @@
 		var location  = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
 
 		geocoder.geocode({ 'latLng': location}, function (results, status) {
-			console.log(results);
-
 			if (status === google.maps.GeocoderStatus.OK) {
 				document.querySelector('.location').textContent = results[2].formatted_address;
 
@@ -100,8 +98,6 @@
 
 		get({ url: forecastUrl, dataType: 'jsonp' })
 		.then(function forecastSuccess(forecast) {
-			console.log(forecast.currently);
-
 			// Store for repeated reference
 			var degrees = document.querySelector('#degrees');
 			var temperature = document.querySelector('#temperature');
