@@ -1,0 +1,23 @@
+{
+  "name": "local-weather",
+  "version": "1.0.0",
+  "description": "Free Code Camp - Local Weather Project",
+  "main": "index.js",
+  "scripts": {
+    "start": "serve-https"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/j-klassen/fcc-local-weather.git"
+  },
+  "author": "Jake Klassen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/j-klassen/fcc-local-weather/issues"
+  },
+  "homepage": "https://github.com/j-klassen/fcc-local-weather#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "serve-https": "^1.5.2"
+  }
+}

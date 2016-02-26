@@ -1,19 +1,17 @@
 // Free Code Camp - Local Weather Application
-
-// Notes:
-// navigator.geolocation.getCurrentPosition() is problemnatic without https,
-// so we'll use http://ip-api.com/json to keep things simple.
 //
+// Targeting HTTPS.
 // See https://erikflowers.github.io/weather-icons/ for weather icons
-//
-// Todo:
-// 1) Add tooltip info about location fetch by IP, could be wrong when
-// being proxied, out of user control, etc.
 
 (function() {
+	// Redirect to https.
+	if (!window.location.protocol.includes('https')) {
+		window.location.protocol = 'https:';
+	}
+
 	var apiKey = '4b77e236e4e215429aa57a7c408809c2';
 	var forecastEndpoint = 'https://api.forecast.io/forecast/' + apiKey + '/';
-	var locationEndpoint = 'http://ip-api.com/json';
+	var locationEndpoint = 'https://ip-api.com/json';
 
 	// Map api response icons to classes
 	var iconMap = {
@@ -33,7 +31,10 @@
 		'tornado': 'wi wi-tornado'
 	};
 
-	// Promise wrapper for $.get()
+	/**
+	 * Promise wrapper for jquery.get()
+	 * @param {object} options - $.get() options
+	 */
 	function get(options) {
 		return new Promise(function(resolve, reject) {
 			$.getJSON(options)
@@ -46,17 +47,59 @@
 		});
 	}
 
-	// Main app logic
-	function updateWeather() {
-		get({ url: locationEndpoint, dataType: 'jsonp' })
-		.then(function handleLocation(location) {
-			var output = location.city + ' ' + location.region + ', ' + location.country;
-			document.querySelector('.location').textContent = output;
+	/**
+	 * Handle lat/lng and ip location abstraction.
+	 */
+	function updateLocation() {
+		if ('geolocation' in navigator) {
+			var options = {
+				enableHighAccuracy: true,
+				timeout: 5000,
+				maximumAge: 0
+			};
 
-			var forecastUrl = forecastEndpoint + location.lat + ',' + location.lon + ',' + (Date.now() / 1000 | 0);
-			return get({ url: forecastUrl, dataType: 'jsonp' });
-		})
-		.then(function handleWeather(forecast) {
+			navigator.geolocation.getCurrentPosition(positionSuccess, positionError, options);
+		} else {
+			// IP based
+			get({ url: locationEndpoint, dataType: 'jsonp' })
+			.then(function handleLocation(location) {
+				// Conform to navigator.geolocation coords property.
+				positionSuccess({
+					coords: {
+						latitude: location.lat,
+						longitude: location.lon
+				}});
+			});
+		}
+	}
+
+	// Fetch address from Google
+	function positionSuccess(pos) {
+		var geocoder = new google.maps.Geocoder();
+		var location  = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+
+		geocoder.geocode({ 'latLng': location}, function (results, status) {
+			console.log(results);
+
+			if (status === google.maps.GeocoderStatus.OK) {
+				document.querySelector('.location').textContent = results[2].formatted_address;
+
+				updateForecast(pos);
+			} else {
+				reportError(new Error('There was an error fetching your address.'));
+			}
+		});
+	}
+
+	function positionError(err) {
+		reportError(err);
+	}
+
+	function updateForecast(pos) {
+		var forecastUrl = forecastEndpoint + pos.coords.latitude + ',' + pos.coords.longitude + ',' + (Date.now() / 1000 | 0);
+
+		get({ url: forecastUrl, dataType: 'jsonp' })
+		.then(function forecastSuccess(forecast) {
 			console.log(forecast.currently);
 
 			// Store for repeated reference
@@ -93,9 +136,17 @@
 
 			document.querySelector('.weather-container i').className = icon;
 		})
-		.catch(function updateWeatherError(err) {
-			console.error(err);
+		.catch(function forecastError(err) {
+			reportError(err);
 		});
+	}
+
+	/**
+	 * Display error to user.
+	 * @params {Error} err - Error object.
+	 */
+	function reportError(err) {
+		document.querySelector('.location').textContent = err.message;
 	}
 
 	/**
@@ -104,6 +155,11 @@
 	 */
 	function celsius(temp) {
 		return (temp - 32) * 5/9;
+	}
+
+	// Main app logic
+	function updateWeather() {
+		updateLocation();
 	}
 
 	// Kick off app
