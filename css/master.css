@@ -1,0 +1,92 @@
+html {
+	height: 100%;
+}
+
+body {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+	background-color: #F6B352;
+	color: black;
+}
+
+header {
+	margin-top: 1rem;
+}
+
+.app-header {
+	font-family: 'Cabin', sans-serif;
+	font-weight: 700;
+	font-size: 8.0vh;
+}
+
+.author {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 600;
+	font-size: 2vh;
+	margin: 1rem;
+}
+
+.author a {
+	color: black;
+	text-decoration: none;
+}
+
+.author a:hover {
+	text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+	.app-header {
+		font-size: 8.0vw;
+	}
+}
+
+*::after, *::before {
+	box-sizing: border-box;
+}
+
+.weather-icon {
+	max-width: 256px;
+	max-height: 256px;
+	margin: 0 auto;
+}
+
+.weather-container {
+	font-size: 20vh;
+	min-height: 20vh;
+}
+
+.weather-summary {
+	font-family: 'Cabin', sans-serif;
+	font-size: 4vh;
+}
+
+.apparent-temperature {
+	font-size: 2vh;
+}
+
+section {
+	flex: 1 0 auto;
+	display: flex;
+	align-items: center;
+	text-align: center;
+}
+
+section img {
+	max-width: 100% !important;
+	height: auto;
+	display: block;
+}
+
+.location {
+	margin-bottom: 1em;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 600;
+	font-size: 4vh;
+}
+
+.temperature-options {
+	font-size: 6vh;
+	margin-top: 1em;
+}
