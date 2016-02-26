@@ -36,7 +36,7 @@
 	// Promise wrapper for $.get()
 	function get(options) {
 		return new Promise(function(resolve, reject) {
-			$.get(options)
+			$.getJSON(options)
 			.done(function(res) {
 				resolve(res);
 			})
