@@ -12,6 +12,7 @@
 	var apiKey = '4b77e236e4e215429aa57a7c408809c2';
 	var forecastEndpoint = 'https://api.forecast.io/forecast/' + apiKey + '/';
 	var locationEndpoint = 'https://ip-api.com/json';
+	var locationCacheTime = 1000 * 60 * 5; // 5 minutes
 
 	// Map api response icons to classes
 	var iconMap = {
@@ -54,7 +55,7 @@
 		if ('geolocation' in navigator) {
 			var options = {
 				enableHighAccuracy: false,
-				maximumAge: 0
+				maximumAge: locationCacheTime
 			};
 
 			navigator.geolocation.getCurrentPosition(positionSuccess, positionError, options);
