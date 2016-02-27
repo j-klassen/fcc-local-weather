@@ -53,8 +53,8 @@
 	function updateLocation() {
 		if ('geolocation' in navigator) {
 			var options = {
-				enableHighAccuracy: true,
-				timeout: 5000,
+				enableHighAccuracy: false,
+				timeout: 8000,
 				maximumAge: 0
 			};
 
