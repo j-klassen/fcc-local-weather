@@ -54,7 +54,6 @@
 		if ('geolocation' in navigator) {
 			var options = {
 				enableHighAccuracy: false,
-				timeout: 8000,
 				maximumAge: 0
 			};
 
