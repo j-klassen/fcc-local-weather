@@ -11,7 +11,7 @@
 
 	var apiKey = '4b77e236e4e215429aa57a7c408809c2';
 	var forecastEndpoint = 'https://api.forecast.io/forecast/' + apiKey + '/';
-	var locationEndpoint = 'http://ip-api.com/json';
+	var locationEndpoint = 'https://ipapi.co/json';
 	var locationCacheTime = 1000 * 60 * 5; // 5 minutes
 
 	// Map api response icons to classes
