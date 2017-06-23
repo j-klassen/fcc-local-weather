@@ -51,8 +51,8 @@
 	/**
 	 * Handle lat/lng and ip location abstraction.
 	 */
-	function updateLocation() {
-		if ('geolocation' in navigator) {
+	function updateLocation(ip) {
+		if ('geolocation' in navigator && !ip) {
 			var options = {
 				enableHighAccuracy: false,
 				maximumAge: locationCacheTime
@@ -91,6 +91,7 @@
 
 	function positionError(err) {
 		reportError(err);
+		updateLocation(true);
 	}
 
 	function updateForecast(pos) {
