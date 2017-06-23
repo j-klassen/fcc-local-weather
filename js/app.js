@@ -61,7 +61,7 @@
 			navigator.geolocation.getCurrentPosition(positionSuccess, positionError, options);
 		} else {
 			// IP based
-			get({ url: locationEndpoint, dataType: 'jsonp' })
+			get({ url: locationEndpoint, dataType: 'json' })
 			.then(function handleLocation(location) {
 				// Conform to navigator.geolocation coords property.
 				positionSuccess({
